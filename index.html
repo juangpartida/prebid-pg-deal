@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires"="0" />
+    <title>Prebid PG Deal</title>
+    
+    <!-- Prebid.js -->
+    <script async src="//cdn.jsdelivr.net/npm/prebid.js@latest/dist/not-for-prod/prebid.js"></script>
+    <style>
+        .ad-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            text-align: center;
+        }
+        .ad-container h3 {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            padding: 5px;
+            text-align: center;
+            z-index: 1;
+        }
+        .ad-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0">
+    <div class="ad-grid">
+        <div id="ad-div-300x250" class="ad-container" style="width: 300px; height: 250px;">
+            <h3 class="portfolio__title">300x250 Ad Placement</h3>
+        </div>
+        <div id="ad-div-160x600" class="ad-container" style="width: 160px; height: 600px;">
+            <h3 class="portfolio__title">160x600 Ad Placement</h3>
+        </div>
+        <div id="ad-div-728x90" class="ad-container" style="width: 728px; height: 90px;">
+            <h3 class="portfolio__title">728x90 Ad Placement</h3>
+        </div>
+        <div id="ad-div-300x600" class="ad-container" style="width: 300px; height: 600px;">
+            <h3 class="portfolio__title">300x600 Ad Placement</h3>
+        </div>
+    </div>
+
+    <script>
+        var adUnit300x250 = [
+            {
+                code: 'ad-div-300x250',
+                mediaTypes: { banner: { sizes: [[300, 250]] } },
+                bids: [
+                    {
+                        bidder: 'viant',
+                        params: {
+                            placementId: '23469191',
+                            publisherId: '12345'
+                        },
+                        ortb2Imp: {
+                            pmp: {
+                                private_auction: 1,  // This can be removed for PG if you don't use it
+                                deals: [
+                                    {
+                                        id: '1234567',           // Unique deal ID
+                                        at: 1,                   // 'at: 1' for PG (auction type)
+                                        bidfloor: 25,            // Minimum bid floor
+                                        bidfloorcur: 'USD',      // Currency
+                                        ext: { 
+                                            must_bid: 1,         // 'must_bid' flag required for PG
+                                            private_auction: 1   // Optional but can be included
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        var adUnit160x600 = [
+            {
+                code: 'ad-div-160x600',
+                mediaTypes: { banner: { sizes: [[160, 600]] } },
+                bids: [
+                    {
+                        bidder: 'viant',
+                        params: {
+                            placementId: '23469192',
+                            publisherId: '12345'
+                        },
+                        ortb2Imp: {
+                            pmp: {
+                                private_auction: 1,  // This can be omitted for PG if needed
+                                deals: [
+                                    {
+                                        id: '1234567',
+                                        at: 1,  // Auction type for PG
+                                        bidfloor: 25,
+                                        bidfloorcur: 'USD',
+                                        ext: { 
+                                            must_bid: 1, 
+                                            private_auction: 1
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        var adUnit728x90 = [
+            {
+                code: 'ad-div-728x90',
+                mediaTypes: { banner: { sizes: [[728, 90]] } },
+                bids: [
+                    {
+                        bidder: 'viant',
+                        params: {
+                            placementId: '23469193',
+                            publisherId: '12345'
+                        },
+                        ortb2Imp: {
+                            pmp: {
+                                private_auction: 1,  // Optional for PG
+                                deals: [
+                                    {
+                                        id: '1234567',
+                                        at: 1,  // PG auction type
+                                        bidfloor: 25,
+                                        bidfloorcur: 'USD',
+                                        ext: { 
+                                            must_bid: 1, 
+                                            private_auction: 1
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        var adUnit300x600 = [
+            {
+                code: 'ad-div-300x600',
+                mediaTypes: { banner: { sizes: [[300, 600]] } },
+                bids: [
+                    {
+                        bidder: 'viant',
+                        params: {
+                            placementId: '23469194',
+                            publisherId: '12345'
+                        },
+                        ortb2Imp: {
+                            pmp: {
+                                private_auction: 1,  // Optional for PG
+                                deals: [
+                                    {
+                                        id: '1234567',
+                                        at: 1,  // PG auction type
+                                        bidfloor: 25,
+                                        bidfloorcur: 'USD',
+                                        ext: { 
+                                            must_bid: 1, 
+                                            private_auction: 1
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        var pbjs = pbjs || {};
+        pbjs.que = pbjs.que || [];
+
+        pbjs.que.push(function() {
+            pbjs.addAdUnits(adUnit300x250);
+            pbjs.requestBids({
+                adUnits: adUnit300x250,
+                bidsBackHandler: function() {
+                    processBids(adUnit300x250[0].code);
+                }
+            });
+        });
+
+        pbjs.que.push(function() {
+            pbjs.addAdUnits(adUnit160x600);
+            pbjs.requestBids({
+                adUnits: adUnit160x600,
+                bidsBackHandler: function() {
+                    processBids(adUnit160x600[0].code);
+                }
+            });
+        });
+
+        pbjs.que.push(function() {
+            pbjs.addAdUnits(adUnit728x90);
+            pbjs.requestBids({
+                adUnits: adUnit728x90,
+                bidsBackHandler: function() {
+                    processBids(adUnit728x90[0].code);
+                }
+            });
+        });
+
+        pbjs.que.push(function() {
+            pbjs.addAdUnits(adUnit300x600);
+            pbjs.requestBids({
+                adUnits: adUnit300x600,
+                bidsBackHandler: function() {
+                    processBids(adUnit300x600[0].code);
+                }
+            });
+        });
+
+        function processBids(adUnitCode) {
+            console.log(`Processing ad unit: ${adUnitCode}`);
+            let winningBid = pbjs.getHighestCpmBids(adUnitCode)[0];
+            if (winningBid) {
+                console.log(`Winning bid for ${adUnitCode}:`, winningBid);
+                renderAdInIframe(adUnitCode, winningBid.adId);
+            } else {
+                console.log(`No winning bid for ${adUnitCode}`);
+            }
+        }
+
+        function renderAdInIframe(adDivId, adId) {
+            const adContainer = document.getElementById(adDivId);
+            if (adContainer) {
+                const iframe = document.createElement('iframe');
+                iframe.id = adDivId + '-iframe';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.frameBorder = '0';
+                iframe.scrolling = 'no';
+                iframe.onload = function() {
+                    pbjs.renderAd(this.contentWindow.document, adId);
+                };
+                adContainer.appendChild(iframe);
+            } else {
+                console.log('Ad container not found for:', adDivId);
+            }
+        }
+    </script>
+</body>
+</html>
